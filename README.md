@@ -5,7 +5,7 @@ About
 SatoshiCircleBot is a python script created to automatically place bets and play [Satoshi Circle](https://satoshicircle.com/?aid=740) 
 an online bitcoin roulette game.
 
-SatoshiCircleBot places bets using the [Martingale betting system](http://en.wikipedia.org/wiki/Martingale_(betting_system)). It is not recommended
+SatoshiCircleBot places bets using the [Martingale betting system](http://en.wikipedia.org/wiki/Martingale_(betting_system). It is not recommended
 that you use this bot unless you have a full understanding of how the martingale systems works as well as a firm understanding of probability/statistics.
 
 
