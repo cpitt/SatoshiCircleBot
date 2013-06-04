@@ -51,7 +51,7 @@ class SatoshiCircleBot:
                 r = self.s.post(self.url+endPoint, data=data, verify=False, timeout=10)
                 json = r.json()
                 break
-            except:
+            except ValueError:
                 #TODO: if queried too quickly satoshicircle will respond with a good (http status 200) but empty requests which leads to the json()
                 #with an decode error... I have also encountered an ssl time out error #TODO: better error handling
                 retries += 1
@@ -100,36 +100,47 @@ class SatoshiCircleBot:
 
     def martingale(self):
         """Continuously place bets according to the martingale strategy"""
-        won_last = True
-        bet = self.initial_bet
+        bet = 0
+        current_streak = 0
+        longest_streak = 0
         while self.running:
-            if won_last:
-                bet = self.initial_bet
-            else:
-                bet *= 2
-            if bet >= self.max_bet or bet >= self.balance:
-                self.stop()
-                return
             spin = self.get_spin(bet)
             if spin['newBets']:
                 self.idbet = self.get_idbet(spin['newBets'][0]) # it seems this needs to be updated whenever possible
-            self.total_earned += spin['addon']
+            # If we lost double the bet else reset to initial bet
             if spin['addon'] < 0:
-                won_last = False
+                current_streak = -1 if current_streak > 0 else current_streak - 1
+                bet *= 2
             else:
-                won_last = True
+                current_streak = 1 if current_streak < 0 else  current_streak + 1
+                bet = self.initial_bet
+            if abs(longest_streak) < abs(current_streak):
+                longest_streak = current_streak
+            if bet >= self.max_bet or bet >= self.balance:
+                self.stop()
+                return
+            self.total_earned += spin['addon']
             self.balance = spin['balance']
             #update ticker
-            sys.stdout.write("\r\x1b[KCurrent bet: " + str(bet) + " | Add On: "+ str(spin['addon']) + " | Balance: " + str(spin['balance']) + \
-                " |  Total Earned: " + str(self.total_earned) + \
-                " | Rate: " + str( round((self.total_earned / (time.time() - self.start_time)) * 60 * 60 , 8) ) + " B/hour " + \
-                " | Running Time: " + str(datetime.timedelta(seconds=time.time()-self.start_time)))
+            sys.stdout.write("\r\x1b[KNext Bet: " + str(bet) + \
+                             " | AddOn: "+ str(spin['addon']) + \
+                             " | Streak: " + str(current_streak) + \
+                             " | Longest Streak: " + str(longest_streak) + \
+                             " | Total: " + str(self.total_earned) + \
+                             " | Rate: " + str( round((self.total_earned / (time.time() - self.start_time)) * 60 * 60 , 8) ) + " BTC/HR" + \
+                             " | Balance: " + str(spin['balance']) + \
+                             " | Running Time: " + str(datetime.timedelta(seconds=time.time()-self.start_time)))
             sys.stdout.flush()
             time.sleep(6)   #lower than 6 seems to be faster than satoshicircle can handle and leads to errors
 
     def start(self):
         """Start the Bot"""
-        print "Starting SatoshiCircleBot!"
+        print "Starting SatoshiCircleBot! \r\n"
+        streak_til_broke = math.floor(math.log((float(self.balance)/self.initial_bet), 2))
+        print   "#####################   Warning   ######################### \r\n" \
+                "# A losing streak of " + str(streak_til_broke) + " will cause you to go bankrupt.  # \r\n" \
+                "# There is a " + str( (.5**streak_til_broke) * 100 ) +"% chance that this will occur.# \r\n" \
+                "########################################################### \r\n"
         self.running = True
         self.start_time = time.time()
         self.martingale()
@@ -155,4 +166,4 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        exit("\r\n Good Bye!")
+        exit("\r\n\r\nThanks for using this script! \r\nIf you found it useful consider sending some btc to 1PfcppGH4Sa96FK7xEWnCjAyz2whuKtgWPi\r\n")
