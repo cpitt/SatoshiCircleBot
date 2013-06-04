@@ -122,13 +122,13 @@ class SatoshiCircleBot:
             self.total_earned += spin['addon']
             self.balance = spin['balance']
             #update ticker
-            sys.stdout.write("\r\x1b[KNext Bet: " + str(bet) + \
+            sys.stdout.write("\r\x1b[KBalance: " + str(spin['balance']) + \
+                             " | Next Bet: " + str(bet) + \
                              " | AddOn: "+ str(spin['addon']) + \
                              " | Streak: " + str(current_streak) + \
                              " | Longest Streak: " + str(longest_streak) + \
                              " | Total: " + str(self.total_earned) + \
                              " | Rate: " + str( round((self.total_earned / (time.time() - self.start_time)) * 60 * 60 , 8) ) + " BTC/HR" + \
-                             " | Balance: " + str(spin['balance']) + \
                              " | Running Time: " + str(datetime.timedelta(seconds=time.time()-self.start_time)))
             sys.stdout.flush()
             time.sleep(6)   #lower than 6 seems to be faster than satoshicircle can handle and leads to errors
