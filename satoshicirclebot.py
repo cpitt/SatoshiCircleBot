@@ -48,10 +48,10 @@ class SatoshiCircleBot:
         retries = 0
         while True:
             try:
-                r = self.s.post(self.url+endPoint, data=data, verify=False, timeout=10)
+                r = self.s.post(self.url+endPoint, data=data, verify=False)
                 json = r.json()
                 break
-            except ValueError:
+            except (ValueError, requests.exceptions.SSLError) :
                 #TODO: if queried too quickly satoshicircle will respond with a good (http status 200) but empty requests which leads to the json()
                 #with an decode error... I have also encountered an ssl time out error #TODO: better error handling
                 retries += 1
