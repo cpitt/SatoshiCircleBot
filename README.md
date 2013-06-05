@@ -8,6 +8,11 @@ an online bitcoin roulette game.
 SatoshiCircleBot places bets using the [Martingale betting system](http://en.wikipedia.org/wiki/Martingale_(betting_system). It is not recommended
 that you use this bot unless you have a full understanding of how the martingale systems works as well as a firm understanding of probabilities/statistics.
 
+#### Disclaimer:
+>I do not condone gambling. This bot was made purely as an experiment. Using this bot does not guarantee that you will 
+>win. Use of this is bot is still gambling and while it can give the appearance of minimized risk, there is 
+>still an inherent risk in gambling.
+
 Donations
 --------------------------------
 If you would like to show your appreciation for this project by donating feel free to send bitcoin donations to:
