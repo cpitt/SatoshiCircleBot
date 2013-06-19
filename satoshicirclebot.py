@@ -166,4 +166,4 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        exit("\r\n\r\nThanks for using this script! \r\nIf you found it useful consider sending some btc to 1PfcppGH4Sa96FK7xEWnCjAyz2whuKtgWPi\r\n")
+        exit("\r\n\r\nThanks for using this script! \r\nIf you found it useful consider sending some btc to 1BQrZSZrWGuDWobpjWwQNiT9Vz77cUNXVU\r\n")
