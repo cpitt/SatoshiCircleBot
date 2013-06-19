@@ -19,8 +19,6 @@ If you would like to show your appreciation for this project by donating feel fr
 
 1BQrZSZrWGuDWobpjWwQNiT9Vz77cUNXVU
 
-Or start using satoshicircle.com using this affiliate link [https://satoshicircle.com/?aid=740](https://satoshicircle.com/?aid=740)
-
 TODO:
 ----------------------------------
 * Automatic withdrawals 
